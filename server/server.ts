@@ -1,9 +1,9 @@
 import { resolve } from "url";
 import * as restify from 'restify'
 import * as mongoose from 'mongoose'
-import { enviroment } from '../common/enviroment'
+import { environment } from '../common/environment'
 import { Router } from '../common/router'
-import { connect } from "../node_modules/@types/mongodb";
+import { connect } from "mongodb";
 import { mergePatchBodyParser } from "./merge-patch.parser";
 import { handleError } from "./error.handler";
 
@@ -13,7 +13,7 @@ export class Server {
 
     initializeDb(): mongoose.MongooseThenable {   
         (<any>mongoose).Promise = global.Promise     
-        return mongoose.connect(enviroment.db.url, {
+        return mongoose.connect(environment.db.url, {
             useMongoClient: true
         })
     }
@@ -36,7 +36,7 @@ export class Server {
                     router.applyRoutes(this.application)
                 }
 
-                this.application.listen(enviroment.server.port, () => {
+                this.application.listen(environment.server.port, () => {
                     resolve(this.application)
                 })
 
